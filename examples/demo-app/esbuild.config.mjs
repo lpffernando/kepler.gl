@@ -277,6 +277,38 @@ function openURL(url) {
         drop: ['console', 'debugger'],
         treeShaking: true,
         metafile: true,
+        splitting: true,
+        chunks: true,
+        format: 'esm',
+        outdir: 'dist',
+        chunkNames: 'chunks/[name]-[hash]',
+        manualChunks: id => {
+          if (id.includes('node_modules')) {
+            if (id.includes('@deck.gl') || id.includes('deck.gl')) {
+              return 'vendor-deck';
+            }
+            if (id.includes('@loaders.gl')) {
+              return 'vendor-loaders';
+            }
+            if (id.includes('@luma.gl')) {
+              return 'vendor-luma';
+            }
+            if (id.includes('@math.gl')) {
+              return 'vendor-math';
+            }
+            if (id.includes('react')) {
+              return 'vendor-react';
+            }
+            if (id.includes('mapbox-gl') || id.includes('maplibre-gl')) {
+              return 'vendor-map';
+            }
+            if (id.includes('apache-arrow') || id.includes('parquet-wasm')) {
+              return 'vendor-data';
+            }
+            return 'vendor';
+          }
+          return 'main';
+        },
         // Optionally generate a bundle analysis
         plugins: [
           ...config.plugins,
