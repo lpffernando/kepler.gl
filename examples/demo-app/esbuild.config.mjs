@@ -278,7 +278,6 @@ function openURL(url) {
         treeShaking: true,
         metafile: true,
         splitting: true,
-        chunks: true,
         format: 'esm',
         outdir: 'dist',
         chunkNames: 'chunks/[name]-[hash]',
