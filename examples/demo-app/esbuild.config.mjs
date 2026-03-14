@@ -281,42 +281,6 @@ function openURL(url) {
         format: 'esm',
         outdir: 'dist',
         chunkNames: 'chunks/[name]-[hash]',
-        manualChunks: id => {
-          if (!id.includes('node_modules')) {
-            return 'app';
-          }
-          if (id.includes('@kepler.gl') || id.includes('kepler.gl')) {
-            return 'kepler';
-          }
-          if (id.includes('@deck.gl') || id.includes('deck.gl')) {
-            return 'deck';
-          }
-          if (id.includes('@loaders.gl')) {
-            return 'loaders';
-          }
-          if (id.includes('@luma.gl')) {
-            return 'luma';
-          }
-          if (id.includes('@math.gl')) {
-            return 'math';
-          }
-          if (id.includes('react') || id.includes('redux')) {
-            return 'react';
-          }
-          if (id.includes('mapbox-gl') || id.includes('maplibre-gl')) {
-            return 'map';
-          }
-          if (id.includes('monaco-editor')) {
-            return 'monaco';
-          }
-          if (id.includes('apache-arrow') || id.includes('parquet-wasm') || id.includes('duckdb')) {
-            return 'data';
-          }
-          if (id.includes('styled-components')) {
-            return 'styles';
-          }
-          return 'vendor';
-        },
         // Optionally generate a bundle analysis
         plugins: [
           ...config.plugins,
