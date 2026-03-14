@@ -69,11 +69,6 @@
   "engines": {
     "node": ">=18"
   },
-  "volta": {
-    "node": "18.18.2",
-    "yarn": "4.4.0"
-  },
-  "packageManager": "yarn@4.4.0",
   "devDependencies": {
     "@dotenv-run/esbuild": "^1.5.0",
     "esbuild-plugin-replace": "^1.4.0"

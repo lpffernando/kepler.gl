@@ -9,7 +9,7 @@ import process from 'node:process';
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
 import {join} from 'node:path';
-import KeplerPackage from '../../package.json' assert {type: 'json'};
+import KeplerPackage from '../../package.json' with {type: 'json'};
 
 const args = process.argv;
 
@@ -81,7 +81,10 @@ const checkEnvVariables = () => {
 const NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'production');
 const config = {
   platform: 'browser',
-  format: 'iife',
+  format: 'esm',
+  splitting: true,
+  outdir: 'dist',
+  chunkNames: 'chunks/[name]-[hash]',
   logLevel: 'info',
   loader: {
     '.js': 'jsx',
@@ -91,7 +94,6 @@ const config = {
     '.woff2': 'file'
   },
   entryPoints: ['src/main.js'],
-  outfile: 'dist/bundle.js',
   bundle: true,
   define: {
     NODE_ENV,
@@ -183,8 +185,8 @@ function addAliases(externals, args) {
       resolveAlias[name] = useLocalDeck
         ? `${NODE_MODULES_DIR}/${name}/src`
         : name === 'probe.gl'
-        ? `${EXTERNAL_DECK_SRC}/node_modules/${name}/src`
-        : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`;
+          ? `${EXTERNAL_DECK_SRC}/node_modules/${name}/src`
+          : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`;
 
       // if env.deck Load @${name} modules from root node_modules/@${name}
       // if env.deck_src Load @${name} modules from deck.gl/node_modules/@${name} folder parallel to kepler.gl`
