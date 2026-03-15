@@ -81,10 +81,7 @@ const checkEnvVariables = () => {
 const NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'production');
 const config = {
   platform: 'browser',
-  format: 'esm',
-  splitting: true,
-  outdir: 'dist',
-  chunkNames: 'chunks/[name]-[hash]',
+  format: 'iife',
   logLevel: 'info',
   loader: {
     '.js': 'jsx',
@@ -94,6 +91,7 @@ const config = {
     '.woff2': 'file'
   },
   entryPoints: ['src/main.js'],
+  outfile: 'dist/bundle.js',
   bundle: true,
   define: {
     NODE_ENV,
@@ -277,33 +275,6 @@ function openURL(url) {
         drop: ['console', 'debugger'],
         treeShaking: true,
         metafile: true,
-        splitting: true,
-        format: 'esm',
-        outdir: 'dist',
-        chunkNames: 'chunks/[name]-[hash]',
-        external: [
-          'react',
-          'react-dom',
-          'react-dom/client',
-          'react-redux',
-          'redux',
-          'deck.gl',
-          '@deck.gl/core',
-          '@deck.gl/layers',
-          '@deck.gl/aggregation-layers',
-          '@deck.gl/geo-layers',
-          '@deck.gl/mesh-layers',
-          '@deck.gl/extensions',
-          '@deck.gl/react',
-          '@loaders.gl/core',
-          '@loaders.gl/csv',
-          '@loaders.gl/json',
-          '@loaders.gl/gltf',
-          '@loaders.gl/parquet',
-          'mapbox-gl',
-          'maplibre-gl',
-          'styled-components'
-        ],
         // Optionally generate a bundle analysis
         plugins: [
           ...config.plugins,
