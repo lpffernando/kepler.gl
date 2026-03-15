@@ -20,15 +20,21 @@ const DROPBOX_CLIENT_NAME = 'Kepler.gl Demo App';
 
 export const DEFAULT_CLOUD_PROVIDER = 'dropbox';
 
+const isProduction = typeof process !== 'undefined' && process.env.NODE_ENV === 'production';
+
 export const CLOUD_PROVIDERS = [
-  new FoursquareProvider({
-    clientId: FOURSQUARE_CLIENT_ID,
-    authDomain: FOURSQUARE_DOMAIN,
-    apiURL: FOURSQUARE_API_URL,
-    userMapsURL: FOURSQUARE_USER_MAPS_URL
-  }),
-  new DropboxProvider(DROPBOX_CLIENT_ID, DROPBOX_CLIENT_NAME),
-  new CartoProvider(CARTO_CLIENT_ID)
+  ...(FOURSQUARE_CLIENT_ID && !isProduction
+    ? [
+        new FoursquareProvider({
+          clientId: FOURSQUARE_CLIENT_ID,
+          authDomain: FOURSQUARE_DOMAIN,
+          apiURL: FOURSQUARE_API_URL,
+          userMapsURL: FOURSQUARE_USER_MAPS_URL
+        })
+      ]
+    : []),
+  ...(DROPBOX_CLIENT_ID ? [new DropboxProvider(DROPBOX_CLIENT_ID, DROPBOX_CLIENT_NAME)] : []),
+  ...(CARTO_CLIENT_ID ? [new CartoProvider(CARTO_CLIENT_ID)] : [])
 ];
 
 export function getCloudProvider(providerName) {
